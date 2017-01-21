@@ -7,7 +7,7 @@ import (
 
 func main() {
 	fmt.Printf("Initial vis yourName value: %v \n", *vis.GetNamePtr())
-	var name = vis.GetNamePtr()
+	var name *string = vis.GetNamePtr()
 	fmt.Printf("Initial local yourName value: %v \n", *name)
 	*name = "testing my name"
 	fmt.Printf("LOCAL IS %v \n", *name)
@@ -16,7 +16,7 @@ func main() {
 	fmt.Println()
 
 	fmt.Printf("Initial MyName is %v \n", vis.MyName)
-	var ourName = &vis.MyName
+	var ourName *string = &vis.MyName
 	fmt.Printf("Initial ourName is %v \n", *ourName)
 	*ourName = "BLAH"
 	fmt.Printf("After MyName is %v \n", vis.MyName)
