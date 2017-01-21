@@ -25,4 +25,6 @@ func main() {
 	fmt.Println()
 
 	vis.PrintVar()
+
+	fmt.Println(vis.Q)
 }
