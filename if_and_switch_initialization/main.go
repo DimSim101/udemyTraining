@@ -8,7 +8,15 @@ func main() {
 
 	if food := "Chocolate"; b {
 		fmt.Println("\n" + food + "\n")
+	} else {
+		// food variable can still be accessed as we are still inside
+		// the "if" block (still within scope)
+		food = "blah"
+		fmt.Println(food)
 	}
+
+	// no longer in the scope to access this variable - line below will fail
+	// food = "abc"
 
 	// You would think this would work but it doesn't (even though its the
 	// same logically. If and switch statements actually have an optional
@@ -41,7 +49,13 @@ func main() {
 	default:
 		fmt.Println("default... can do something that is required in " +
 			"all the switch cases above that have fallthrough, " +
-			"or just something that is required for default behaviour")
+			"or just something that is required for default behaviour \n")
+
+		//myvar accessible within the block of the switch statement as expected
+		fmt.Println("SWITCHED ON VALUE:", myvar)
 	}
+
+	// once outside the switch block, we cannot access myvar anymore
+	// myvar = "ccc" - This line will fail
 
 }
