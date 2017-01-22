@@ -50,7 +50,8 @@ func main() {
 	scannedBytes, error := fmt.Scan(&meters)
 
 	// Check for error due to incompatible type (attempting to scan in
-	// something other than a value of type float64.
+	// something other than a value of type float64) or some other cause
+	// (float64 value too large (overflow)) etc.
 	if error != nil {
 		fmt.Println(error)
 	}
