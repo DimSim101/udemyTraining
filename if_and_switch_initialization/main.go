@@ -6,8 +6,11 @@ func main() {
 
 	b := true
 
-	if food := "Chocolate"; b {
+	if food := "Chocolate"; !b {
 		fmt.Println("\n" + food + "\n")
+	} else if b {
+		fmt.Println("not in same section, though init variable" +
+			"is still accessible as we can see ... ", food, "\n")
 	} else {
 		// food variable can still be accessed as we are still inside
 		// the "if" block (still within scope)
