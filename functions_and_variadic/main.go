@@ -9,6 +9,16 @@ func main() {
 	strings(0, "test")
 	strings(1, "one", "two")
 	strings(2, "1", "2", "3", `4`)
+
+	data := []string {"Hello", "My", "Name", "Is", "King", "David"}
+	// calling the function as strings(data) fails as the variable data
+	// is of type []string (a slice of strings) and gets passed into the
+	// string function as a single argument (under the variable strings).
+	// This causes a type comparison error as []string and string are not
+	// the same. Hence, we must unpack the individual elements of the slice
+	// and pass them in as separate arguments to the variadic argument strings
+	// in order for this to work. Hence the syntax strings(3, data...)
+	strings(3, data...)
 }
 
 // Note the below doesn't work as the variadic argument must be the last arg
