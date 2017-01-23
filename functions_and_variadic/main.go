@@ -132,7 +132,7 @@ func stringsThree(number int, strings []string, integers []int) {
 // combinations one can do with this stuff.
 func stringsFour(number int, strings []string, integers []int, stringsTwo ...string) {
 	fmt.Println()
-	fmt.Println("Test3", strconv.Itoa(number), "started!")
+	fmt.Println("Test4", strconv.Itoa(number), "started!")
 
 	for _, value := range strings {
 		fmt.Println(value)
