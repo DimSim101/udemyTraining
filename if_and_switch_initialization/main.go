@@ -13,6 +13,7 @@ func main() {
 	if food := "Chocolate"; !b {
 		blah := "bbb"
 		fmt.Println("\n" + food + "\n")
+		fmt.Println(blah)
 	} else if b {
 		// cannot access blah here (as it is within the closure of the
 		// if statement curly braces)
@@ -46,16 +47,30 @@ func main() {
 	// Just like the if statement, initialization within the switch also
 	// requires a semi colon, followed by the name of the value to switch on
 	// (in this case myvar)
+
+	// Similarly, the variable myvar (initialized outside the switch block)
+	// is accessible anywhere within the switch.
 	switch myvar := "bbb"; myvar {
 	// testing string comparison with "" and ``
 	case `bbb`:
+		// variables created within the switch block are specific to
+		// the case they are initialized in
+		// This is the exact same as the if case shown above -
+		// initializing a variable inside the initialization statement
+		// does not limit it to a specific block within the statement
+		// (if or switch) but instead limits the variables scope to the
+		// entire statements block!
+		blah := "test"
 		fmt.Println("We found it! :D Switch init works. Just like with " +
 			"if statements if we initialize a variable in the " +
 			"statement, we must have a semi colon after it, followed " +
 			"by the usual statement (i.e. comparison when in an if, " +
 			"statement to switch cases on in switch)" + "\n")
+		fmt.Println(blah)
 		fallthrough
 	case "aaa":
+		// the line below will fail as blah is not defined
+		// blah = "aaa"
 		fmt.Println("this should never happen...unless we fallthrough hehe :) \n")
 		// threw this in as fallthrough is not allowed in type switch's
 		fallthrough
