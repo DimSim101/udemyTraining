@@ -6,9 +6,17 @@ func main() {
 
 	b := true
 
+	// interesting that using this type of initialization is accessible
+	// within the entire if/else chunk, but not outside of it
+	// and this differs to initializing a variable inside the if block
+	// (cannot be accessed within the else if / else etc. - see below).
 	if food := "Chocolate"; !b {
+		blah := "bbb"
 		fmt.Println("\n" + food + "\n")
 	} else if b {
+		// cannot access blah here (as it is within the closure of the
+		// if statement curly braces)
+		// blah = "asd"
 		fmt.Println("not in same section, though init variable" +
 			"is still accessible as we can see ... ", food, "\n")
 	} else {
@@ -16,6 +24,8 @@ func main() {
 		// the "if" block (still within scope)
 		food = "blah"
 		fmt.Println(food)
+		// same applies to blah above here, outside the closure of if {}
+		//blah = "asd"
 	}
 
 	// no longer in the scope to access this variable - line below will fail
