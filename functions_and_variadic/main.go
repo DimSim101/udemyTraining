@@ -59,6 +59,14 @@ func main() {
 	dataInts := []int {1, 2, 3, 4, 420}
 	stringsThree(5, data, dataInts)
 
+	// strings four uses the best of both worlds, utilizing both slices of
+	// respective types as well as variadic arguments for cases when they
+	// are prefereable and/or required.
+	// The syntax of unpacking the sliced data is nice and clean, so it makes
+	// sense to utilise variadic functions where possible (judging from
+	// how much they are used in the godocs from what Ive seen so far).
+	stringsFour(99, data, dataInts, data...)
+
 }
 
 // Note the below doesn't work as the variadic argument must be the last arg
@@ -116,4 +124,30 @@ func stringsThree(number int, strings []string, integers []int) {
 	}
 	fmt.Println(integers)
 	fmt.Printf("Strings type is %T, Integers is type %T and number is of type %T \n", strings, integers, number)
+}
+
+// Combines it all together, allowing for varying number of arguments using slices
+// for as many arguments (in any position) as you want, combined with the use of
+// a trailing argument to make the function variadic and show all the possible
+// combinations one can do with this stuff.
+func stringsFour(number int, strings []string, integers []int, stringsTwo ...string) {
+	fmt.Println()
+	fmt.Println("Test3", strconv.Itoa(number), "started!")
+
+	for _, value := range strings {
+		fmt.Println(value)
+	}
+	fmt.Println(strings)
+
+	for _, value := range integers {
+		fmt.Println(value)
+	}
+	fmt.Println(integers)
+
+	for _, value := range stringsTwo {
+		fmt.Println(value)
+	}
+	fmt.Println(stringsTwo)
+	fmt.Printf("Strings type is %T, Integers is type %T, stringsTwo is type %T and number is of type %T \n",
+		strings, integers, stringsTwo, number)
 }
