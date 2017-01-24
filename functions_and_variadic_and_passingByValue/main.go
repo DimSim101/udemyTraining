@@ -67,6 +67,17 @@ func main() {
 	// how much they are used in the godocs from what Ive seen so far).
 	stringsFour(99, data, dataInts, data...)
 
+	bbb := []string{"Test", "blah", "blah"}
+	fmt.Println("BBBB IS: ", bbb)
+	stringsTwo(42, bbb)
+	fmt.Println("BBBB IS: ", bbb)
+
+	ccc := make([]string, 1, 3)
+	fmt.Println(ccc)
+	ccc = []string{"Test2", "blah", "blah"}
+	fmt.Println(ccc)
+	stringsTwo(42, ccc)
+	fmt.Println(ccc)
 }
 
 // Note the below doesn't work as the variadic argument must be the last arg
@@ -106,6 +117,15 @@ func stringsTwo(number int, strings []string) {
 	}
 	fmt.Println(strings)
 	fmt.Printf("Strings type is %T and number is of type %T \n", strings, number)
+
+	if number == 42 {
+		// Because types like []string are passed by value and contain
+		// a pointer to their underlying data structure
+		// we can manipulate them directly without needing a pointer
+		// and passing the address of the variable as the value
+		strings[0] = "bbbbbb"
+		fmt.Println(strings)
+	}
 }
 
 // As discussed above, this function can have multiple arguments with a varying
