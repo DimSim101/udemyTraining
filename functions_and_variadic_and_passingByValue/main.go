@@ -75,16 +75,29 @@ func main() {
 	// but also possible to change the original data structure using the
 	// [index] syntax.
 	bbb := []string{"Test", "blah", "blah"}
-	fmt.Println("BBBB IS: ", bbb)
+	fmt.Println("BBBB IS:", bbb)
 	stringsTwo(42, bbb)
-	fmt.Println("BBBB IS: ", bbb)
+	fmt.Println("BBBB IS:", bbb)
 
+
+	fmt.Println()
 	ccc := make([]string, 1, 3)
 	fmt.Println(ccc)
 	ccc = []string{"Test2", "blah", "blah"}
-	fmt.Println(ccc)
+	fmt.Println("DATA OF CCC IS:", ccc)
+
+	// Location of the slice itself (the first element)
+	fmt.Printf("WITHIN MAIN: VALUE OF VARIABLE / FUNC PARAM CCC - POINTER TO SLICE: %p \n", ccc)
+	// Location of the pointer to the first element
+	fmt.Printf("WITHIN MAIN: ADDRESS OF VARIABLE / FUNC PARAM CCC - POINTER TO POINTER TO SLICE: %p \n", &ccc)
+
 	stringsTwo(42, ccc)
 	fmt.Println(ccc)
+
+	// Location of the slice itself (the first element)
+	fmt.Printf("WITHIN MAIN: VALUE OF VARIABLE / FUNC PARAM CCC - POINTER TO SLICE: %p \n", ccc)
+	// Location of the pointer to the first element
+	fmt.Printf("WITHIN MAIN: ADDRESS OF VARIABLE / FUNC PARAM CCC - POINTER TO POINTER TO SLICE: %p \n", &ccc)
 }
 
 // Note the below doesn't work as the variadic argument must be the last arg
@@ -133,11 +146,38 @@ func stringsTwo(number int, strings []string) {
 		// SEE BELOW FOR EXAMPLES OF EACH
 
 		// THIS MANIPULATES THE ORIGINAL DATA STRUCTURE BY REFERENCE
+		// As the value of strings is a pointer to the first element of data
+		// within the slice (indexed by size of the types of slices).
 		strings[0] = "bbbbbb"
+		// The value of the pointer is the address of the slice
+		// (the first element of data)
+		fmt.Printf("WITHIN FUNC: VALUE OF FUNC ARG STRINGS - POINTER TO SLICE: %p \n", strings)
 		fmt.Println(strings)
 
+
+		// This address is the address of the local pointer which is
+		// contains a copy of the values within the passed in pointer.
+		// What this means is that the argument strings points to the
+		// first element of the slice (just as the variable ccc) does in
+		// main. However, ccc and strings are different variables themselves
+		// and thus differ in their address (essentially strings is a local
+		// copy of ccc which both point to the first element of data in the slice).
+		fmt.Printf("WITHIN FUNC: ADDRESS OF FUNC ARG STRINGS - POINTER TO POINTER TO SLICE: %p \n", &strings)
 		// THIS MANIPULATES THE LOCAL COPY VALUE
 		strings = []string{"This", "is", "a", "local", "copy"}
+		fmt.Printf("WITHIN FUNC: ADDRESS OF FUNC ARG STRINGS - POINTER TO POINTER TO SLICE: %p \n", &strings)
+
+		// This address is the value of the passed in strings variable.
+		// As strings is a local copy of the pointer ccc (in main) which
+		// was passed into the function, strings and ccc both point
+		// to the same thing (the first element in the slice).
+		// Hence, this address should be the same as the one printed for ccc.
+
+		// Local value of strings (the address of the slice data) changes
+		// as we reassigned it to a new slice.
+		fmt.Printf("WITHIN FUNC: NEW VALUE OF FUNC ARG STRINGS - POINTER TO SLICE: %p \n", strings)
+		// Local copy of pointer address doesn't change
+		fmt.Printf("WITHIN FUNC: ADDRESS OF FUNC ARG STRINGS - POINTER TO POINTER TO SLICE: %p \n", &strings)
 		fmt.Println(strings)
 	}
 }
