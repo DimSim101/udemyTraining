@@ -67,6 +67,13 @@ func main() {
 	// how much they are used in the godocs from what Ive seen so far).
 	stringsFour(99, data, dataInts, data...)
 
+
+	// it seems as though passing a type like []string to a function
+	// passes a pointer to the data (i.e. the first element)
+	// This makes sense as it can be copied and changed locally (via
+	// reassigning the local variable) without changing the original data,
+	// but also possible to change the original data structure using the
+	// [index] syntax.
 	bbb := []string{"Test", "blah", "blah"}
 	fmt.Println("BBBB IS: ", bbb)
 	stringsTwo(42, bbb)
@@ -123,7 +130,14 @@ func stringsTwo(number int, strings []string) {
 		// a pointer to their underlying data structure
 		// we can manipulate them directly without needing a pointer
 		// and passing the address of the variable as the value
+		// SEE BELOW FOR EXAMPLES OF EACH
+
+		// THIS MANIPULATES THE ORIGINAL DATA STRUCTURE BY REFERENCE
 		strings[0] = "bbbbbb"
+		fmt.Println(strings)
+
+		// THIS MANIPULATES THE LOCAL COPY VALUE
+		strings = []string{"This", "is", "a", "local", "copy"}
 		fmt.Println(strings)
 	}
 }
