@@ -36,6 +36,6 @@ func main() {
 	// after the result of some async function has returned.
 	// This would be useful for multithreading / concurrency stuff, as well as
 	// doing stuff in the background (same thing) like a web request.
-	time.Sleep(5)
 	fmt.Println("FACTORIAL OF 42 = ", factorial(42))
+	time.Sleep(5000000000)
 }
