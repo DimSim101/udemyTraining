@@ -24,5 +24,6 @@ func main() {
 	for i := 0; i < 10; i++ {
 		fmt.Printf("Factorial: %d = %d Recursive Factorial \n",
 			factorial(i), recursiveFactorial(i))
+
 	}
 }
