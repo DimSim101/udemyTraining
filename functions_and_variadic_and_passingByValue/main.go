@@ -148,6 +148,11 @@ func stringsTwo(number int, strings []string) {
 		// THIS MANIPULATES THE ORIGINAL DATA STRUCTURE BY REFERENCE
 		// As the value of strings is a pointer to the first element of data
 		// within the slice (indexed by size of the types of slices).
+		// This only works because the local pointer "strings" is still
+		// pointing to the original data structure (slice of strings)
+		// Once it is reassigned below, any changes made will not be
+		// seen in ccc (in main) as they will point to different addresses
+		// for different slice structures.
 		strings[0] = "bbbbbb"
 		// The value of the pointer is the address of the slice
 		// (the first element of data)
