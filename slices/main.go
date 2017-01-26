@@ -174,5 +174,94 @@ func main() {
 		fmt.Println("Len:", len(intSlice), "Capacity:", cap(intSlice), "Value: ", intSlice[i])
 		fmt.Println()
 	}
+
+	fmt.Println()
+	fmt.Println("------------------")
+	fmt.Println("Deleting from slice:")
+	fmt.Println()
+
+	oneToFive := []int{1,2,3,4,5}
+	fmt.Println(oneToFive)
+
+	oneToFive = deleteMiddleElem(oneToFive)
+	//for i := 0; i < len(oneToFive); i++ {
+	//	// delete the middle element
+	//	if (i == len(oneToFive)/2) {
+	//		fmt.Println("deleting middle element")
+	//		oneToFive = append(oneToFive[:i], oneToFive[i+1:]...)
+	//	}
+	//}
+	fmt.Println(oneToFive)
+	oneToFive = deleteMiddleElem(oneToFive)
+	fmt.Println(oneToFive)
+	oneToFive = deleteMiddleElem(oneToFive)
+	fmt.Println(oneToFive)
+	oneToFive = deleteMiddleElem(oneToFive)
+	fmt.Println(oneToFive)
+	oneToFive = deleteMiddleElem(oneToFive)
+	fmt.Println(oneToFive)
+	oneToFive = deleteMiddleElem(oneToFive)
+	fmt.Println(oneToFive)
+
+	fmt.Println()
+
+	oneToFive = []int{1,2,3,4,5}
+	fmt.Println(oneToFive)
+	removeCenter(&oneToFive)
+	fmt.Println(oneToFive)
+	removeCenter(&oneToFive)
+	fmt.Println(oneToFive)
+	removeCenter(&oneToFive)
+	fmt.Println(oneToFive)
+	removeCenter(&oneToFive)
+	fmt.Println(oneToFive)
+	removeCenter(&oneToFive)
+	fmt.Println(oneToFive)
+	removeCenter(&oneToFive)
+	fmt.Println(oneToFive)
 }
 
+// manipulate the given slice using its pointer (more efficient imo)
+func removeCenter(slicePtr *[]int) {
+	// Since we can call removeCenter on any pointer to a slice of int's
+	// we must first check it has some elements before we try remove any
+	// otherwise appending (*slicePtr)[halfWay+1] results in index [1]
+	// which is out of bounds on an empty slice.
+	// While this is an O(1) algorithm for deleting the middle element
+	// we need to be more cautious due to the method itself.
+	if len(*slicePtr) > 0 {
+		halfWay := len(*slicePtr)/2
+		*slicePtr = append((*slicePtr)[:halfWay], (*slicePtr)[halfWay+1:]...)
+	}
+}
+
+// returning a slice of ints
+func deleteMiddleElem(slicePtr []int)  []int{
+	var newSlicePtr []int
+
+	// O(1) middle elem delete :^)
+	if len(slicePtr) > 0 {
+		halfWay := len(slicePtr)/2
+		newSlicePtr = append(slicePtr[:halfWay], slicePtr[halfWay+1:]...)
+	}
+
+	// Simple loop algorithm (O(n)) to delete middle elem
+	// Unlike the above algorithms used in deleteMiddleElem() and
+	// removeCenter(), because this uses a for loop to iterate over the
+	// slice of ints, when the slice is empty, len(slicePtr) == 0,
+	// which results in i := 0; i < 0; i++ on the for loop, so we pass
+	// over it completely and return the empty slicePtr that was created
+	// locally. This isn't great either and I prefer the check on length
+	// method used instead.
+
+	//for i := 0; i < len(slicePtr); i++ {
+	//	// delete the middle element
+	//	if (i == len(slicePtr)/2) {
+	//		fmt.Println("deleting middle element")
+	//		slicePtr = append(slicePtr[:i], slicePtr[i+1:]...)
+	//		// could break here to make algo faster, but still crap
+	//	}
+	//}
+	//fmt.Println(len(slicePtr))
+	return newSlicePtr
+}
