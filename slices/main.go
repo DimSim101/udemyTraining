@@ -29,7 +29,10 @@ func main() {
 	// be updated accordingly. Additionally, if the added item results in the
 	// slices length exceeding its capacity, a new array is allocated with
 	// double the size and the slice is stored there instead (allowing
-	// for dynamic sizes for slices during runtime).
+	// for dynamic sizes for slices during runtime). However, after a certain
+	// size limit, the new array is no longer doubled in size but instead
+	// increased by some small amount (to stop taking up increasingly
+	// larger chunks when they are probably not needed).
 	customerNumber := make([]int, 3)
 
 	fmt.Println(customerNumber)
@@ -144,5 +147,32 @@ func main() {
 	// having the double the underlying array repeatedly to fit all the items
 	// Instead, we can create the size needed and initialize the values using
 	// make in one go, making the overall procedure much more efficient.
+
+
+	intSlice := make([]int, 0, 3)
+
+	fmt.Println()
+	fmt.Println("-----------------")
+	fmt.Println("Len:", len(intSlice), "Capacity:", cap(intSlice), "Value: ", intSlice)
+	fmt.Println("-----------------")
+	fmt.Println()
+
+	for i := 0; i < 7; i++ {
+		// Here we print the address of the pointer to the slice
+		// before and after appending so we can see that the address
+		// changes when length exceeds capacity and a new underlying
+		// array is created to store the slice items.
+		fmt.Printf("INTSLICE ADDRESS = %p \n", intSlice)
+		fmt.Printf("This is the address of the slice itself (designated by the first elem)\n\n")
+		fmt.Printf("INTSLICE POINTER ADDRESS = %p \n", &intSlice)
+		fmt.Printf("This is the address of the pointer to the underlying array of items" +
+			"that make up a slice. This never changes (even after" +
+			"array is reallocated etc (which makes sense)).\n\n")
+		intSlice = append(intSlice, i)
+		fmt.Printf("Address of first elem (post append) is %p \n", &intSlice[0])
+		fmt.Printf("Address of intSlice after append is %p \n", intSlice)
+		fmt.Println("Len:", len(intSlice), "Capacity:", cap(intSlice), "Value: ", intSlice[i])
+		fmt.Println()
+	}
 }
 
