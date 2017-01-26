@@ -86,5 +86,63 @@ func main() {
 	fmt.Println("Appended string: test3")
 	fmt.Printf("Greeting = %v\n", greeting)
 	fmt.Printf("LEN IS: %v and CAP IS: %v\n", len(greeting), cap(greeting))
+
+	// This works the same way as make (must call make somewhere when we
+	// initialize a slice) and makes a slice of len == 0 and cap == 0
+	// because the pointer to the underlying array is nil (unitialized default value).
+	var testSlice []string
+	fmt.Printf("testSlice is: %v - LEN IS: %v and CAP IS: %v\n", testSlice, len(testSlice), cap(testSlice))
+
+	// After adding something to it, the same thing applies as above
+	// Add the item if possible and increase length by 1. If array is full
+	// double array size, allocate a new array, copy all items to new array,
+	// free old array and then allocate the item to the new array.
+	testSlice = append(testSlice, "aaa")
+	fmt.Println("Appending aaa to testSlice")
+	fmt.Printf("testSlice is: %v - LEN IS: %v and CAP IS: %v\n", testSlice, len(testSlice), cap(testSlice))
+
+	testSlice = append(testSlice, "bbb")
+	fmt.Println("Appending bbb to testSlice")
+	fmt.Printf("testSlice is: %v - LEN IS: %v and CAP IS: %v\n", testSlice, len(testSlice), cap(testSlice))
+
+	testSlice = append(testSlice, "ccc")
+	fmt.Println("Appending ccc to testSlice")
+	fmt.Printf("testSlice is: %v - LEN IS: %v and CAP IS: %v\n", testSlice, len(testSlice), cap(testSlice))
+
+	// Note: Regardless of the above, it is important to realize the purpose
+	// of functions like make (and new etc.)
+	// If we are initializing some slice, say a slice of strings, which we know
+	// needs 50 values at initialization, but will later need another 50.
+	// Instead of just creating an empty slice of length 0, and then
+	// adding items and having the array created and doubled in size many
+	// times, we can create a slice with a length 50 and a capacity 100.
+	// We can then store all our items easily, and we arent wasting
+	// efficiency / time creating and freeing pointless arrays as we double
+	// in size to allocate all the items repeatedly.
+
+	// See the example here:
+	madeSlice := make([]int, 50, 100)
+	fmt.Printf("madeSlice is: %v - LEN IS: %v and CAP IS: %v\n", madeSlice, len(madeSlice), cap(madeSlice))
+
+	for i := 0; i < len(madeSlice); i++ {
+		madeSlice[i] = i
+	}
+
+	// Notice both len and cap remain unchanged, as we have neither exceeded
+	// initial 50 values in the slice, nor needed to allocate a new array
+	fmt.Printf("madeSlice is: %v - LEN IS: %v and CAP IS: %v\n", madeSlice, len(madeSlice), cap(madeSlice))
+
+	// Another example of where this would be useful is if ints represented
+	// some state, of which we needed initialized to be 0.
+	// For example, when we created our game board for the AI simple maze
+	// text navigation game, we needed to initialize a list of values to be
+	// 0, which would then change based on what the AI had seen each turn
+	// (The blank 0's are the representation of the game board in the data
+	// when the game first begins).
+	// Thus, dynamically allocating a slice using var slice []int to init
+	// the slice and then append the 0's into it would again result in
+	// having the double the underlying array repeatedly to fit all the items
+	// Instead, we can create the size needed and initialize the values using
+	// make in one go, making the overall procedure much more efficient.
 }
 
