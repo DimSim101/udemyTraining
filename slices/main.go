@@ -229,8 +229,31 @@ func removeCenter(slicePtr *[]int) {
 	// which is out of bounds on an empty slice.
 	// While this is an O(1) algorithm for deleting the middle element
 	// we need to be more cautious due to the method itself.
+	fmt.Println("SLICEPTR BEFORE DELETE = ", *slicePtr)
 	if len(*slicePtr) > 0 {
+		fmt.Println("LEN =", len(*slicePtr))
 		halfWay := len(*slicePtr)/2
+		fmt.Println("HALWAY =", halfWay)
+
+		// Why does the line below fail but the next one does not?
+		// We expect this line to fail, as lets say we are deleting
+		// the last element (index 0), the syntax for this is
+		// append((*slicePtr)[:0], (*slicePtr)[0+1:]...)
+		// which then becomes append((*slicePtr)[:0], (*slicePtr)[1:]...)
+		// where (*slicePtr)[1] is clearly out of range.
+		// Thus, if we look at this index directly (using the line below)
+		// we expect to get an error about out of bounds (as we have
+		// extended beyond the length of the slice).
+		// Yet for some reason, the line below throwsm an error,
+		// but when we use slicing of slices it does not. Why?
+		//fmt.Println("SLICEPTR HALFWAY =", (*slicePtr)[halfWay+1])
+
+		// This one doesn't throw an error, must be something to do
+		// with the slicing, but what? - The only difference at all is
+		// the existence of the semicolon.
+		// i.e. from (*slicePtr)[halfWay+1]) to (*slicePtr)[halfWay+1:])
+		// will happily remove the error
+		fmt.Println("SLICEPTR HALFWAY =", (*slicePtr)[halfWay+1:])
 		*slicePtr = append((*slicePtr)[:halfWay], (*slicePtr)[halfWay+1:]...)
 	}
 }
