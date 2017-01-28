@@ -14,6 +14,7 @@ func main() {
 	fmt.Println("myString"[2]) // index access; accessing by index
 	fmt.Println(string("myString"[2])) // index access; get original value out.
 
+
 	// make: allocates a slice of a given length as well as an underlying
 	// array of length either: == to len(slice) or == cap (3rd arg to make)
 	// make will return a slice which can be allocated up to its index(len()-1)
@@ -254,6 +255,7 @@ func removeCenter(slicePtr *[]int) {
 		// i.e. from (*slicePtr)[halfWay+1]) to (*slicePtr)[halfWay+1:])
 		// will happily remove the error
 		fmt.Println("SLICEPTR HALFWAY =", (*slicePtr)[halfWay+1:])
+		fmt.Println("1 SLICEPTR = ", (*slicePtr)[1:])
 		*slicePtr = append((*slicePtr)[:halfWay], (*slicePtr)[halfWay+1:]...)
 	}
 }
