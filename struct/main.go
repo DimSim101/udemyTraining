@@ -158,5 +158,10 @@ func main() {
 	// This shows the difference between an embedded type and a non embedded type
 	fmt.Println(t1.first, t1.last, t1.age, t1.toBeOrNotToBe)
 	fmt.Println(t1.declaredPerson.first, t1.declaredPerson.last, t1.declaredPerson.age, t1.toBeOrNotToBe)
+	fmt.Println()
 
+	// Just had to check this was the same as the pointer examples above when
+	// grabbing the address of the struct created.
+	lastPerson := &person{"Last", "Person", 7}
+	fmt.Printf("%p: %p - %p - %p \n", lastPerson, &lastPerson.first, &lastPerson.last, &lastPerson.age)
 }
