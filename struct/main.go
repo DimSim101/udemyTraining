@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/DimSim101/udemyTraining/03_visibility_and_ptrs/vis"
 )
 
 type person struct {
@@ -14,7 +15,6 @@ func main() {
 	p1 := person{"David", "Aaron", 25}
 	fmt.Println(p1)
 	fmt.Println(p1.first, p1.last, p1.age)
-
 
 	// Both initialization techniques for a struct result in a struct
 	// that has the zero values for all the variables it contains.
@@ -41,4 +41,9 @@ func main() {
 
 	fmt.Printf("%p \n", &p3)
 	fmt.Printf("%p - %p - %p \n", &p3.first, &p3.last, &p3.age)
+
+	// visibility rules apply to naming structs just like any other variable
+	// capital first letter = visible outside package.
+	test := vis.VisiblePerson{}
+	fmt.Println(test)
 }
