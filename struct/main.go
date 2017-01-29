@@ -5,16 +5,41 @@ import (
 	"github.com/DimSim101/udemyTraining/03_visibility_and_ptrs/vis"
 )
 
+type family struct {
+	mum person
+	me person
+	related bool
+}
+
 type person struct {
 	first string
 	last string
 	age int
 }
 
+// this is a method that is a function connected to some type
+// in this case, a function connected to the person type.
+// The receiver essentially connects the function to the type of the receiver
+// This way any variable of type person has access to the function fullName().
+func (p person) fullName() string {
+	return p.first + " " + p.last
+}
+
+// variable and method overriding can exist in structs due to their encapsulation
+// You can access variables and their defined methods via each level of the struct
+// using its . syntax. See below for examples.
+// This function will be called when using the family.fullName() syntax.
+// If we want to call the underlying persons function, we must do family.person.fullName().
+func (f family) fullName() string {
+	// we used a dash here to differentiate the two elements
+	return f.me.first + "-" + f.me.last
+}
+
 func main() {
-	p1 := person{"David", "Aaron", 25}
-	fmt.Println(p1)
-	fmt.Println(p1.first, p1.last, p1.age)
+	me := person{"David", "Aaron", 25}
+	fmt.Println(me)
+	fmt.Println(me.first, me.last, me.age)
+	fmt.Println(me.fullName())
 
 	// Both initialization techniques for a struct result in a struct
 	// that has the zero values for all the variables it contains.
@@ -33,8 +58,8 @@ func main() {
 	// Pointer to p1 is just a pointer to the first variable in the struct
 	// Presumably this is just the start of the memory chunk in which
 	// all the struct variables are placed
-	fmt.Printf("%p \n", &p1)
-	fmt.Printf("%p - %p - %p \n\n", &p1.first, &p1.last, &p1.age)
+	fmt.Printf("%p \n", &me)
+	fmt.Printf("%p - %p - %p \n\n", &me.first, &me.last, &me.age)
 
 	fmt.Printf("%p \n", &p2)
 	fmt.Printf("%p - %p - %p \n\n", &p2.first, &p2.last, &p2.age)
@@ -46,4 +71,36 @@ func main() {
 	// capital first letter = visible outside package.
 	test := vis.VisiblePerson{}
 	fmt.Println(test)
+	fmt.Println()
+
+	var nilFam family
+	fmt.Println(nilFam)
+
+	// We dont require the name: value syntax as below. This is just a
+	// syntax element for clarity. See below for example without
+	myFam := family{
+		mum: person{"Mandy", "Aaron", 56},
+		me: me,
+		related: true,
+	}
+
+	fmt.Println(myFam)
+
+	uglyFam := family{
+		person{"Ugly", "Fugly", 69},
+		person{"Who is who", "Here", 69},
+		false,
+	}
+
+	fmt.Println(uglyFam)
+
+	fmt.Println(myFam.mum)
+	fmt.Println(uglyFam.mum)
+
+	fmt.Println()
+	fmt.Println("fullName method associated with person variable:", me.fullName())
+
+	fmt.Println("Full name from family fullName() method:", myFam.fullName())
+	fmt.Println("Full name from person fullName() method inside struct:", myFam.me.fullName())
+
 }
