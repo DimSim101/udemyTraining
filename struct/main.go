@@ -19,7 +19,7 @@ type person struct {
 
 // This struct contains a single embedded type (person) which can then
 // be accessed directly i.e. DoubleZero.first to get first name of person.
-type DoubleZero struct {
+type doubleZero struct {
 	person
 	LicenseToKill bool
 }
@@ -31,7 +31,7 @@ type DoubleZero struct {
 // them) are "promoted" which means they are accessible in the context of the
 // struct itself rather than needing to "step down a level" into the person
 // type.
-type TripleZero struct {
+type tripleZero struct {
 	declaredPerson person
 	person
 	//person - This throws an error as we have duplicate names, even with
@@ -127,7 +127,7 @@ func main() {
 	fmt.Println("Full name from person fullName() method inside struct:", myFam.me.fullName())
 	fmt.Println()
 
-	d1 := DoubleZero{
+	d1 := doubleZero{
 		person: person{
 			first: "James",
 			last: "Bond",
@@ -141,7 +141,7 @@ func main() {
 	fmt.Println(d1.first, d1.last, d1.age, d1.LicenseToKill)
 	fmt.Println()
 
-	t1 := TripleZero{
+	t1 := tripleZero{
 		declaredPerson: person{
 			first: "Shake",
 			last: "Spear",
