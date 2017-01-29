@@ -17,6 +17,29 @@ type person struct {
 	age int
 }
 
+// This struct contains a single embedded type (person) which can then
+// be accessed directly i.e. DoubleZero.first to get first name of person.
+type DoubleZero struct {
+	person
+	LicenseToKill bool
+}
+
+// This struct was an attempt at holding multiple embedded types. I guess we can,
+// but not multiple embedded types of the SAME TYPE. I.e. I cannot have multiple
+// embedded variables of type person inside a single struct.
+// These anonymous variables (as they have no name through which we can refer to
+// them) are "promoted" which means they are accessible in the context of the
+// struct itself rather than needing to "step down a level" into the person
+// type.
+type TripleZero struct {
+	declaredPerson person
+	person
+	//person - This throws an error as we have duplicate names, even with
+	// the optional tag included.
+	toBeOrNotToBe bool
+}
+
+
 // this is a method that is a function connected to some type
 // in this case, a function connected to the person type.
 // The receiver essentially connects the function to the type of the receiver
@@ -102,5 +125,38 @@ func main() {
 
 	fmt.Println("Full name from family fullName() method:", myFam.fullName())
 	fmt.Println("Full name from person fullName() method inside struct:", myFam.me.fullName())
+	fmt.Println()
+
+	d1 := DoubleZero{
+		person: person{
+			first: "James",
+			last: "Bond",
+			age: 42,
+		},
+		LicenseToKill: true,
+	}
+
+	// as this is an embedded type, we can access its values without
+	// requiring d1.person.blah.
+	fmt.Println(d1.first, d1.last, d1.age, d1.LicenseToKill)
+	fmt.Println()
+
+	t1 := TripleZero{
+		declaredPerson: person{
+			first: "Shake",
+			last: "Spear",
+			age: 99,
+		},
+		person: person{
+			first: "Test",
+			last: "Second",
+			age: 100,
+		},
+		toBeOrNotToBe: true,
+	}
+
+	// This shows the difference between an embedded type and a non embedded type
+	fmt.Println(t1.first, t1.last, t1.age, t1.toBeOrNotToBe)
+	fmt.Println(t1.declaredPerson.first, t1.declaredPerson.last, t1.declaredPerson.age, t1.toBeOrNotToBe)
 
 }
