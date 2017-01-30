@@ -24,6 +24,8 @@ func main()  {
 	sort.Sort(stringSlice)
 	fmt.Println(studyGroup)
 
+	// all sort.Reverse does below is take an Interface and change its
+	// Less() function to be the other way around i.e. p[j] < p[i]
 	sort.Sort(sort.Reverse(stringSlice))
 	fmt.Println(studyGroup)
 	fmt.Println()
@@ -36,6 +38,11 @@ func main()  {
 	sort.Sort(stringSlice)
 	fmt.Println(s)
 	sort.Sort(sort.Reverse(stringSlice))
+	fmt.Println(s)
+	// There is also a Sort() function attached to the StringSlice type
+	// which just calls sort.Sort(). It is only there for convenience but
+	// I figured I may aswell show its use here.
+	sort.StringSlice(s).Sort()
 	fmt.Println(s)
 	fmt.Println()
 
