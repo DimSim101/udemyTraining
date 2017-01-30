@@ -8,7 +8,7 @@ import (
 // This is an empty interface and everything implements it (as it has no methods).
 // Thus, we can use empty interfaces to do interesting things like store variables
 // of any type.
-type empty interface {}
+type empty interface{}
 
 type shape interface {
 	area() float64
@@ -23,6 +23,9 @@ type circle struct {
 	radius float64
 }
 
+// This function has a value receiver (of type square). Unlike pointer receivers,
+// value receivers can be used by both the type directly as well as a pointer to
+// the type.
 func (s square) area() float64 {
 	return s.sideLen * s.sideLen
 }
@@ -56,7 +59,37 @@ func emptyInterfaceVariadic(a ...interface{}) {
 	fmt.Printf("%T = %v \n", a, a)
 }
 
+// This function has a pointer receiver of type *square. It can only be called
+// using a pointer.
+// Courtesy of Bill Kennedy:
+// Receivers	Values
+// (t T)	T and *T
+// (t *T)	*T
+func (s *square) doubleSide() float64 {
+	return 2 * s.sideLen
+}
+
+type shape2 interface {
+	doubleSide() float64
+}
+
+func info2(z shape2) {
+	fmt.Println(z.doubleSide())
+}
+
 func main() {
+	fmt.Println("Starting receiver example...")
+	valueReceiver := square{5}
+	fmt.Println("Created square:", valueReceiver)
+	fmt.Println("Calling function with pointer receiver using address of square:")
+	info2(&valueReceiver) // calls doubleSide() which takes in a variable
+	// of type pointer to square (*square).
+	fmt.Println("Calling function with value receiver using square variable directly:")
+	info(valueReceiver)
+	fmt.Println("Calling function with value receiver using address of square:")
+	info(&valueReceiver)
+
+	fmt.Println()
 	s := square{4}
 	info(s)
 
@@ -65,16 +98,16 @@ func main() {
 
 	// This is a slice of empty interfaces and thus the types inside can be
 	// anything.
-	emptySlice := []empty{s, c, "Testing", 420, 'a', []int{0,1,2,3}}
+	emptySlice := []empty{s, c, "Testing", 420, 'a', []int{0, 1, 2, 3}}
 	fmt.Println(emptySlice)
 
-	ints := []int{0,1,2,3}
+	ints := []int{0, 1, 2, 3}
 	emptyInterface(s)
 	emptyInterface(c)
 	emptyInterface(emptySlice)
 	emptyInterface(ints)
 
-	interfaces := []interface{}{"Blah", "Blah2", 42, []int{9,8,7}}
+	interfaces := []interface{}{"Blah", "Blah2", 42, []int{9, 8, 7}}
 	fmt.Println(interfaces)
 	// Here, the slice of interface{} is the argument and thus only
 	// takes up one entry in the printed interfaces variable.
