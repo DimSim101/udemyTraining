@@ -11,7 +11,16 @@ type people []string
 // sorting a slice of strings. However, I included them in the final example
 // to show their use.
 func (p people) Len() int { return len(p) }
-func (p people) Swap(i,j int)  { p[i], p[j] = p[j], p[i] }
+func (p people) Swap(i,j int)  {
+	// Because this is an expression, the right hand side is evaluated
+	// before the left hand side.
+	// This results in the RHS creating a tuple with the value (p[j], p[i])
+	// Where p[j] and p[i] are their UNSWAPPED VALUES.
+	// Following this, the left hand side is evaluated (left hand side
+	// variables are assigned their respective values) i.e. p[i] now = p[j].
+	// Thus, the variables now have swapped their values without a temp variable
+	p[i], p[j] = p[j], p[i]
+}
 func (p people) Less(i,j int) bool { return p[i] < p[j] }
 
 func main()  {
