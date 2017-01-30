@@ -9,11 +9,10 @@ func main() {
 
 	mySlice := []string{"a", "b", "c", "g", "m", "z"}
 	fmt.Println(mySlice)
-	fmt.Println(mySlice[2:4])  // slicing a slice
-	fmt.Println(mySlice[2])    // index access; accessing by index
-	fmt.Println("myString"[2]) // index access; accessing by index
+	fmt.Println(mySlice[2:4])          // slicing a slice
+	fmt.Println(mySlice[2])            // index access; accessing by index
+	fmt.Println("myString"[2])         // index access; accessing by index
 	fmt.Println(string("myString"[2])) // index access; get original value out.
-
 
 	// make: allocates a slice of a given length as well as an underlying
 	// array of length either: == to len(slice) or == cap (3rd arg to make)
@@ -149,7 +148,6 @@ func main() {
 	// Instead, we can create the size needed and initialize the values using
 	// make in one go, making the overall procedure much more efficient.
 
-
 	intSlice := make([]int, 0, 3)
 
 	fmt.Println()
@@ -181,7 +179,7 @@ func main() {
 	fmt.Println("Deleting from slice:")
 	fmt.Println()
 
-	oneToFive := []int{1,2,3,4,5}
+	oneToFive := []int{1, 2, 3, 4, 5}
 	fmt.Println(oneToFive)
 
 	oneToFive = deleteMiddleElem(oneToFive)
@@ -206,7 +204,7 @@ func main() {
 
 	fmt.Println()
 
-	oneToFive = []int{1,2,3,4,5}
+	oneToFive = []int{1, 2, 3, 4, 5}
 	fmt.Println(oneToFive)
 	removeCenter(&oneToFive)
 	fmt.Println(oneToFive)
@@ -233,7 +231,7 @@ func removeCenter(slicePtr *[]int) {
 	fmt.Println("SLICEPTR BEFORE DELETE = ", *slicePtr)
 	if len(*slicePtr) > 0 {
 		fmt.Println("LEN =", len(*slicePtr))
-		halfWay := len(*slicePtr)/2
+		halfWay := len(*slicePtr) / 2
 		fmt.Println("HALWAY =", halfWay)
 
 		// Why does the line below fail but the next one does not?
@@ -261,12 +259,12 @@ func removeCenter(slicePtr *[]int) {
 }
 
 // returning a slice of ints
-func deleteMiddleElem(slicePtr []int)  []int{
+func deleteMiddleElem(slicePtr []int) []int {
 	var newSlicePtr []int
 
 	// O(1) middle elem delete :^)
 	if len(slicePtr) > 0 {
-		halfWay := len(slicePtr)/2
+		halfWay := len(slicePtr) / 2
 		newSlicePtr = append(slicePtr[:halfWay], slicePtr[halfWay+1:]...)
 	}
 

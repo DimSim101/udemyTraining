@@ -6,20 +6,21 @@ var yourName = "Future Rock Star Programmer"
 
 // externally visibility naming scheme applies to constants too
 
-// externally visible
+// Q is Externally visible
 const Q = 42
 
-// not visible
+// Q is not Externally visible
 const q = 42
 
 type nonVisiblePerson struct {
 	first string
-	last string
-	age int
+	last  string
+	age   int
 }
 
+// VisiblePerson is Externally visible for use in an example showing visibility.
 type VisiblePerson struct {
 	first string
-	last string
-	age int
+	last  string
+	age   int
 }

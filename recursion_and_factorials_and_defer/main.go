@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func factorial (x int) int {
+func factorial(x int) int {
 	total := 1
 	for x > 0 {
 		total *= x
@@ -15,7 +15,7 @@ func factorial (x int) int {
 	return total
 }
 
-func recursiveFactorial (x int) int {
+func recursiveFactorial(x int) int {
 	if x == 0 {
 		return 1
 	}

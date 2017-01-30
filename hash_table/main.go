@@ -1,13 +1,13 @@
 package main
 
 import (
-	"net/http"
-	"log"
 	"bufio"
 	"fmt"
+	"log"
+	"net/http"
 )
 
-const numBuckets  = 12
+const numBuckets = 12
 
 func main() {
 
@@ -40,7 +40,7 @@ func main() {
 		// extract the word we have in the scanner buffer
 		word := scanner.Text()
 		// calculate which bucket to put it in
-		n := HashBucket(word)
+		n := hashBucket(word)
 		// append the word to the bucket at index n (add it to the
 		// slice of strings at index n of the buckets slice - buckets[n]).
 		index := len(buckets[n])
@@ -86,11 +86,11 @@ func main() {
 	// fmt.Println(buckets[6][0:1]) // Print the first word in the slice of strings
 	// for the 7th bucket (index 6). // Lol happened to be Bram so motivated
 	// the making of stokerTracker.
-	bramLocation := buckets[HashBucket("Bram")][stokerTracker["Bram"]]
-	stokerLocation := buckets[HashBucket("Stoker")][stokerTracker["Stoker"]]
+	bramLocation := buckets[hashBucket("Bram")][stokerTracker["Bram"]]
+	stokerLocation := buckets[hashBucket("Stoker")][stokerTracker["Stoker"]]
 	fmt.Println(bramLocation, stokerLocation, ":)")
 }
 
-func HashBucket(word string) int{
+func hashBucket(word string) int {
 	return int(word[0]) % numBuckets
 }

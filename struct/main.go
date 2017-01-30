@@ -6,15 +6,15 @@ import (
 )
 
 type family struct {
-	mum person
-	me person
+	mum     person
+	me      person
 	related bool
 }
 
 type person struct {
 	first string
-	last string
-	age int
+	last  string
+	age   int
 }
 
 // This struct contains a single embedded type (person) which can then
@@ -38,7 +38,6 @@ type tripleZero struct {
 	// the optional tag included.
 	toBeOrNotToBe bool
 }
-
 
 // this is a method that is a function connected to some type
 // in this case, a function connected to the person type.
@@ -102,8 +101,8 @@ func main() {
 	// We dont require the name: value syntax as below. This is just a
 	// syntax element for clarity. See below for example without
 	myFam := family{
-		mum: person{"Mandy", "Aaron", 56},
-		me: me,
+		mum:     person{"Mandy", "Aaron", 56},
+		me:      me,
 		related: true,
 	}
 
@@ -130,8 +129,8 @@ func main() {
 	d1 := doubleZero{
 		person: person{
 			first: "James",
-			last: "Bond",
-			age: 42,
+			last:  "Bond",
+			age:   42,
 		},
 		LicenseToKill: true,
 	}
@@ -144,13 +143,13 @@ func main() {
 	t1 := tripleZero{
 		declaredPerson: person{
 			first: "Shake",
-			last: "Spear",
-			age: 99,
+			last:  "Spear",
+			age:   99,
 		},
 		person: person{
 			first: "Test",
-			last: "Second",
-			age: 100,
+			last:  "Second",
+			age:   100,
 		},
 		toBeOrNotToBe: true,
 	}

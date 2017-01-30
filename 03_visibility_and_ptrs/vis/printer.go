@@ -15,6 +15,7 @@ func PrintVar() {
 // access to / cannot create a pointer to the variable directly - as can be
 // done with Upper case (externally visible) variables.
 
+// GetNamePtr is an externally visible function
 // The only case in which a lower case (private) variable can be manipulated
 // directly is through returning a pointer to the local variable in some way
 // (i.e. a function like GetNamePtr() below)

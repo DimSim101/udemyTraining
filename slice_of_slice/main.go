@@ -1,8 +1,8 @@
 package main
 
 import (
-"fmt"
-"strings"
+	"fmt"
+	"strings"
 )
 
 func main() {
@@ -24,7 +24,7 @@ func main() {
 	// store the record
 	records = append(records, student2)
 
-	myTestStudent := []string {"David", "Aaron", "100.00", "99.00", "98.00", "420.00"}
+	myTestStudent := []string{"David", "Aaron", "100.00", "99.00", "98.00", "420.00"}
 	records = append(records, myTestStudent)
 
 	// print

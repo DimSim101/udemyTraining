@@ -18,7 +18,7 @@ func main() {
 		// cannot access blah here (as it is within the closure of the
 		// if statement curly braces)
 		// blah = "asd"
-		fmt.Println("not in same section, though init variable" +
+		fmt.Println("not in same section, though init variable"+
 			"is still accessible as we can see ... ", food, "\n")
 	} else {
 		// food variable can still be accessed as we are still inside
@@ -39,9 +39,9 @@ func main() {
 	// part of the same section of the statement)
 
 	/*
-	if food := "Chocolate" && b {
-		fmt.Println(food)
-	}
+		if food := "Chocolate" && b {
+			fmt.Println(food)
+		}
 	*/
 
 	// Just like the if statement, initialization within the switch also

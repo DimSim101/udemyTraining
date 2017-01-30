@@ -7,7 +7,6 @@ import (
 
 func main() {
 
-
 	var data []string
 	test := "test"
 
@@ -23,7 +22,7 @@ func main() {
 	strings(1, one, two)
 	strings(2, first, second, third, fourth)
 
-	data = []string {"Hello", "My", "Name", "Is", "King", "David"}
+	data = []string{"Hello", "My", "Name", "Is", "King", "David"}
 	// calling the function as strings(data) fails as the variable data
 	// is of type []string (a slice of strings) and gets passed into the
 	// string function as a single argument (under the variable strings).
@@ -51,12 +50,12 @@ func main() {
 	data = []string{first, second, third, fourth}
 	stringsTwo(2, data)
 
-	data = []string {"Hello", "My", "Name", "Is", "King", "David"}
+	data = []string{"Hello", "My", "Name", "Is", "King", "David"}
 	stringsTwo(3, data)
 
 	// stringsThree can have any number of ints and strings passed in via
 	// each argument being a slice of their respective type
-	dataInts := []int {1, 2, 3, 4, 420}
+	dataInts := []int{1, 2, 3, 4, 420}
 	stringsThree(5, data, dataInts)
 
 	// strings four uses the best of both worlds, utilizing both slices of
@@ -66,7 +65,6 @@ func main() {
 	// sense to utilise variadic functions where possible (judging from
 	// how much they are used in the godocs from what Ive seen so far).
 	stringsFour(99, data, dataInts, data...)
-
 
 	// it seems as though passing a type like []string to a function
 	// passes a pointer to the data (i.e. the first element)
@@ -78,7 +76,6 @@ func main() {
 	fmt.Println("BBBB IS:", bbb)
 	stringsTwo(42, bbb)
 	fmt.Println("BBBB IS:", bbb)
-
 
 	fmt.Println()
 	ccc := make([]string, 1, 3)
@@ -158,7 +155,6 @@ func stringsTwo(number int, strings []string) {
 		// (the first element of data)
 		fmt.Printf("WITHIN FUNC: VALUE OF FUNC ARG STRINGS - POINTER TO SLICE: %p \n", strings)
 		fmt.Println(strings)
-
 
 		// This address is the address of the local pointer which is
 		// contains a copy of the values within the passed in pointer.

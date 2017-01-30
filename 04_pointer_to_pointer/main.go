@@ -11,13 +11,16 @@ func main() {
 	x := 5
 	y := 3
 
-	var intPtr *int = &y
+	// This is a ptr to y
+	intPtr := &y
 	fmt.Printf("Y is %v and intPtr is %v \n", y, *intPtr)
 
 	*intPtr = 8
 	fmt.Printf("Y is %v and intPtr is %v \n", y, *intPtr)
 
-	var ptrintPtr **int = &intPtr
+	// This is a ptr to a pointer - intPtr (a ptr to y). Hence it is a
+	// pointer to a pointer to y.
+	ptrintPtr := &intPtr
 	fmt.Printf("ptrintPtr is %v \n", **ptrintPtr)
 
 	**ptrintPtr = 2

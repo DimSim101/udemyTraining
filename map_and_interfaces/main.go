@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"net/http"
-	"log"
 	"io/ioutil"
+	"log"
+	"net/http"
 )
 
 type myReader struct {
@@ -14,7 +14,7 @@ type myReader struct {
 // An attempt to create a Reader to see if it would just return these values.
 // Just gets called in some sort of loop and runs out of memory
 // Presumably we need to provide some sort of EOF to stop.
-func (r myReader) Read(p []byte) (n int, err error)  {
+func (r myReader) Read(p []byte) (n int, err error) {
 	fmt.Println("read called")
 	return 0, nil
 }

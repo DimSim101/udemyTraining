@@ -7,11 +7,12 @@ import (
 
 type people []string
 type peopleTwo []string
+
 // These are not needed as we can use sort.StringSlice since we are
 // sorting a slice of strings. However, I included them in the final example
 // to show their use.
 func (p people) Len() int { return len(p) }
-func (p people) Swap(i,j int)  {
+func (p people) Swap(i, j int) {
 	// Because this is an expression, the right hand side is evaluated
 	// before the left hand side.
 	// This results in the RHS creating a tuple with the value (p[j], p[i])
@@ -21,7 +22,7 @@ func (p people) Swap(i,j int)  {
 	// Thus, the variables now have swapped their values without a temp variable
 	p[i], p[j] = p[j], p[i]
 }
-func (p people) Less(i,j int) bool { return p[i] < p[j] }
+func (p people) Less(i, j int) bool { return p[i] < p[j] }
 
 // Here I am showing how you can override a types String() method which is
 // called to return the strings value when printing. If we change the receiver
@@ -35,7 +36,7 @@ func (p peopleTwo) String() string {
 	return output
 }
 
-func main()  {
+func main() {
 	fmt.Println()
 	fmt.Println("Example 1:")
 	studyGroup := people{"Zeno", "John", "Al", "Jenny"}

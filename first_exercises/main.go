@@ -67,7 +67,7 @@ func exercise4() {
 
 func exercise5() {
 	for i := 1; i < 100; i++ {
-		if i % 2 == 0 {
+		if i%2 == 0 {
 			fmt.Println(i)
 		}
 	}
@@ -76,10 +76,10 @@ func exercise5() {
 func exercise6() {
 	for i := 1; i <= 100; i++ {
 		var output string
-		if i % 3 == 0 {
+		if i%3 == 0 {
 			output += "Fizz"
 		}
-		if i % 5 == 0 {
+		if i%5 == 0 {
 			output += "Buzz"
 		}
 
@@ -94,7 +94,7 @@ func exercise7() {
 	var sum int
 	for i := 1; i < 1000; i++ {
 		fmt.Println(i)
-		if i % 3 == 0 || i % 5 == 0 {
+		if i%3 == 0 || i%5 == 0 {
 			sum += i
 		}
 	}

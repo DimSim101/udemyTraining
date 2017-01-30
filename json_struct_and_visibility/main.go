@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -18,8 +18,8 @@ type animal struct {
 	// For example, for Category below, the json data is "Type":"BLAH"
 	// Hence, the program needs some way to trace from Type -> Category.
 	Category string `json:"Type"`
-	NumLegs int `json:"Number of legs"`
-	Name string
+	NumLegs  int    `json:"Number of legs"`
+	Name     string
 	// as the colour variable is not expored / not externally visible,
 	// when we pass data of this type to json.Marshal
 	// (which is using an external library file) it is then out of scope
@@ -32,14 +32,14 @@ type animal struct {
 	VisibleButExcludedColour string `json:"-"`
 }
 
-func newAnimal (category string, numLegs int, name string, colour string) animal {
-	return animal{Category:category,
-		NumLegs:numLegs,
-		Name:name,
-		colour:colour,
-		Colour:colour,
-		VisibleButExcludedColour:colour,
-		}
+func newAnimal(category string, numLegs int, name string, colour string) animal {
+	return animal{Category: category,
+		NumLegs: numLegs,
+		Name:    name,
+		colour:  colour,
+		Colour:  colour,
+		VisibleButExcludedColour: colour,
+	}
 }
 
 func main() {
@@ -61,7 +61,6 @@ func main() {
 	if error != nil {
 		log.Fatal(error)
 	}
-
 
 	fmt.Println("Json data:", string(data))
 	fmt.Println()

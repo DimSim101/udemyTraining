@@ -26,8 +26,8 @@ func main() {
 
 	// append will just add to the end rather than replacing the default " " values inside that are set when creating using make
 	s = append(s, "blah")
-	fmt.Println(s) // all of s (the slice)
-	fmt.Println(s[:]) // all of s from 0 to len(s) -- same as above
+	fmt.Println(s)          // all of s (the slice)
+	fmt.Println(s[:])       // all of s from 0 to len(s) -- same as above
 	fmt.Println(s[:cap(s)]) // all of s and its underlying array - not same
 
 	// If we want to replace the default created empty string items in the slice, we must refer to their index. Can loop over from i; i < len(s); i ++ and change them all if we wanted.
@@ -37,4 +37,3 @@ func main() {
 	fmt.Println(s)
 	fmt.Println(s[:cap(s)]) // all of s and its underlying array - not same
 }
-

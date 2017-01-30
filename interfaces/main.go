@@ -34,14 +34,14 @@ func (c circle) width() float64 {
 	return c.radius * 2
 }
 
-func info (z shape) {
+func info(z shape) {
 	fmt.Printf("%T \n", z)
 	fmt.Println(z)
 	fmt.Println(z.area())
 	fmt.Println(z.width())
 }
 
-func main()  {
+func main() {
 	s := square{4}
 	info(s)
 
