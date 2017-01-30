@@ -6,7 +6,7 @@ import (
 )
 
 type people []string
-
+type peopleTwo []string
 // These are not needed as we can use sort.StringSlice since we are
 // sorting a slice of strings. However, I included them in the final example
 // to show their use.
@@ -22,6 +22,18 @@ func (p people) Swap(i,j int)  {
 	p[i], p[j] = p[j], p[i]
 }
 func (p people) Less(i,j int) bool { return p[i] < p[j] }
+
+// Here I am showing how you can override a types String() method which is
+// called to return the strings value when printing. If we change the receiver
+// to type people, all the cases where we used variables of type people below
+// will have their printed values changed.
+func (p peopleTwo) String() string {
+	var output string
+	for index, value := range p {
+		output += fmt.Sprintf("STRINGY - %d : %s\n", index, value)
+	}
+	return output
+}
 
 func main()  {
 	fmt.Println()
@@ -79,4 +91,8 @@ func main()  {
 	n2 := []int{79, 42, 18, 2, 9, 190, 12, 32, 3}
 	sort.Ints(n2)
 	fmt.Println(n2)
+	fmt.Println()
+
+	peopleTwoGroup := peopleTwo{"PeopleTwo", "Zeno", "John", "Al", "Jenny"}
+	fmt.Print(peopleTwoGroup)
 }
