@@ -74,4 +74,9 @@ func main()  {
 	fmt.Println(lastTest)
 	sort.Sort(sort.Reverse(lastTestInterface))
 	fmt.Println(lastTest)
+
+	// Just like the strings, ints has its own "quick access" sort
+	n2 := []int{79, 42, 18, 2, 9, 190, 12, 32, 3}
+	sort.Ints(n2)
+	fmt.Println(n2)
 }
