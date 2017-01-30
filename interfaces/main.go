@@ -35,6 +35,7 @@ func (c circle) width() float64 {
 }
 
 func info (z shape) {
+	fmt.Printf("%T \n", z)
 	fmt.Println(z)
 	fmt.Println(z.area())
 	fmt.Println(z.width())
