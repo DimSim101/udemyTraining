@@ -1,0 +1,109 @@
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+	"math/rand"
+	"runtime"
+)
+
+var semaphore sync.WaitGroup
+var mutex sync.Mutex
+var counter int
+
+// Not sure if this is still needed? May as well put it in to be 100% were using
+// all cpu's available.
+func init()  {
+	runtime.GOMAXPROCS(runtime.NumCPU())
+}
+
+func main () {
+	start := time.Now()
+
+	// We can run go run -race main.go to check for race conditions
+	// Each of the chunks below (add/dec and add/add) result in race conditions
+	// if we remove the mutex.
+	fmt.Println("Example adding 10 and removing 10 from global counter...")
+	semaphore.Add(2)
+	go increment()
+	go decrement()
+	semaphore.Wait()
+	fmt.Println("Final counter value:", counter)
+	fmt.Println()
+
+	fmt.Println("Example adding 10 twice to global counter...")
+	counter = 0
+	semaphore.Add(2)
+	go increment()
+	go increment()
+	semaphore.Wait()
+	fmt.Println("Final counter value is:", counter)
+	fmt.Println()
+
+	fmt.Println("Example using counter++ and calling increment twice...")
+	counter = 0
+	semaphore.Add(2)
+	go newInc()
+	go newInc()
+	semaphore.Wait()
+	fmt.Println("Final counter value is:", counter)
+	fmt.Println()
+
+	elapsed := time.Since(start)
+	fmt.Println("Program took", elapsed)
+}
+
+func increment() {
+	for i := 0; i < 10; i++ {
+		time.Sleep(time.Duration(rand.Intn(20))*time.Millisecond)
+		mutex.Lock()
+		// The lines below would be changed to: counter++ instead of
+		// separating the increment of the global counter. (see newInc())
+		// However, it is left as separate to show concurrency and issues
+		// with race conditions. Remove the mutex and its lock/unlock's
+		// and this program returns to having a race condition.
+		x := counter
+		fmt.Println("Start inc: X = ", x, "and counter =", counter)
+		x++
+		fmt.Println("After inc: X = ", x, "and counter =", counter)
+		counter = x
+		fmt.Println("End inc: X = ", x, "and counter =", counter)
+		mutex.Unlock()
+	}
+	semaphore.Done()
+}
+
+func decrement() {
+	for i := 0; i < 10; i++ {
+		time.Sleep(time.Duration(rand.Intn(20))*time.Millisecond)
+		mutex.Lock()
+		x := counter
+		fmt.Println("Start dec: X = ", x, "and counter =", counter)
+		x--
+		fmt.Println("After dec: X = ", x, "and counter =", counter)
+		counter = x
+		fmt.Println("End dec: X = ", x, "and counter =", counter)
+		mutex.Unlock()
+	}
+	semaphore.Done()
+}
+
+// Running go run -race main.go without the mutex will show this function has a
+// race condition as the counter variable is still being accessed at the same
+// time (potentially). However, this will still increment correctly as the
+// counter++ is a single instruction (atomic) and cannot context switch during
+// its execution. Thus, counter will either not have incremented and it will
+// context switch, or counter will have incremented and then a context switch
+// can occur or not. Either way, regardless of the race condition the value of
+// counter is correct. This is not best practice however. Hence, we have used
+// a mutex here to avoid this race condition.
+func newInc() {
+	for i := 0; i < 10; i++ {
+		time.Sleep(time.Duration(rand.Intn(20))*time.Millisecond)
+		mutex.Lock()
+		counter++
+		mutex.Unlock()
+	}
+	semaphore.Done()
+}
