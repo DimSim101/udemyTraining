@@ -28,6 +28,7 @@ func concurrencyWrapper() func() {
 			time.Sleep(time.Duration(rand.Intn(20))*time.Millisecond)
 			mutex.Lock()
 			counter++
+			time.Sleep(time.Duration(rand.Intn(20))*time.Millisecond)
 			fmt.Println("Counter value is:", counter)
 			mutex.Unlock()
 		}
