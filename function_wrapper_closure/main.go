@@ -29,7 +29,7 @@ func concurrencyWrapper() func() {
 			mutex.Lock()
 			counter++
 			time.Sleep(time.Duration(rand.Intn(20))*time.Millisecond)
-			fmt.Println("Counter value is:", counter)
+			fmt.Println(i, "Counter value is:", counter)
 			mutex.Unlock()
 		}
 		semaphore.Done()
