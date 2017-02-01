@@ -98,8 +98,8 @@ func increment() {
 	//time.Sleep(5*time.Millisecond) // uncomment this for deadlock.
 	for i := 0; i < 10; i++ {
 		channelVar := <-channel // get counter value out of channel
-		channelVar++ // increment local value
-		channel <- channelVar // put new value (counter+1) on channel
+		channelVar++            // increment local value
+		channel <- channelVar   // put new value (counter+1) on channel
 	}
 	done <- true
 }

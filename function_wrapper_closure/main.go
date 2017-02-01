@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"sync"
 	"time"
-	"math/rand"
 )
 
 // This is a function that initializes a count to 0 and returns a function.
@@ -23,12 +23,12 @@ func wrapper() func() int {
 func concurrencyWrapper() func() {
 	var counter int
 	var mutex sync.Mutex
-	return func () {
+	return func() {
 		for i := 0; i < 10; i++ {
-			time.Sleep(time.Duration(rand.Intn(20))*time.Millisecond)
+			time.Sleep(time.Duration(rand.Intn(20)) * time.Millisecond)
 			mutex.Lock()
 			counter++
-			time.Sleep(time.Duration(rand.Intn(20))*time.Millisecond)
+			time.Sleep(time.Duration(rand.Intn(20)) * time.Millisecond)
 			fmt.Println(i, "Counter value is:", counter)
 			mutex.Unlock()
 		}
@@ -37,6 +37,7 @@ func concurrencyWrapper() func() {
 }
 
 var semaphore sync.WaitGroup
+
 func main() {
 	// Here we get the function result that is returned from wrapper(),
 	// and calling wrapper() also initializes the int which increment() accesses.

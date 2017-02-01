@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"sync"
-	"time"
 	"math/rand"
 	"runtime"
+	"sync"
 	"sync/atomic"
+	"time"
 )
 
 var semaphore sync.WaitGroup
@@ -16,11 +16,11 @@ var atomicCounter int64
 
 // Not sure if this is still needed? May as well put it in to be 100% were using
 // all cpu's available.
-func init()  {
+func init() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 }
 
-func main () {
+func main() {
 	start := time.Now()
 
 	// We can run go run -race main.go to check for race conditions
@@ -65,7 +65,7 @@ func main () {
 
 func increment() {
 	for i := 0; i < 10; i++ {
-		time.Sleep(time.Duration(rand.Intn(20))*time.Millisecond)
+		time.Sleep(time.Duration(rand.Intn(20)) * time.Millisecond)
 		mutex.Lock()
 		// The lines below would be changed to: counter++ instead of
 		// separating the increment of the global counter. (see newInc())
@@ -85,7 +85,7 @@ func increment() {
 
 func decrement() {
 	for i := 0; i < 10; i++ {
-		time.Sleep(time.Duration(rand.Intn(20))*time.Millisecond)
+		time.Sleep(time.Duration(rand.Intn(20)) * time.Millisecond)
 		mutex.Lock()
 		x := counter
 		fmt.Println("Start dec: X = ", x, "and counter =", counter)
@@ -115,7 +115,7 @@ func decrement() {
 // thread switching (context switching) and causing a race condition with counter.
 func newInc() {
 	for i := 0; i < 10; i++ {
-		time.Sleep(time.Duration(rand.Intn(20))*time.Millisecond)
+		time.Sleep(time.Duration(rand.Intn(20)) * time.Millisecond)
 		mutex.Lock()
 		counter++
 		mutex.Unlock()
@@ -129,7 +129,7 @@ func newInc() {
 // to add to, and a value to increase by. Here we provide 1 as we want to do ++.
 func atomicInc() {
 	for i := 0; i < 20; i++ {
-		time.Sleep(time.Duration(rand.Intn(20))*time.Millisecond)
+		time.Sleep(time.Duration(rand.Intn(20)) * time.Millisecond)
 		atomic.AddInt64(&atomicCounter, 1)
 		// We sleep here to allow for context switch to show only the
 		// atomic instruction is thread safe, the prints etc. are not.
