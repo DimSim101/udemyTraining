@@ -10,7 +10,7 @@ func main() {
 
 	// This is a channel that can have data sent to it and read from it.
 	// This type of channel is called bidirectional.
-	newChan :=  make(chan int)
+	newChan := make(chan int)
 	// Once passed in here, the local channel variable within adderOnly()
 	// becomes send only (channel can only have stuff sent to it).
 	adderOnly(newChan)
@@ -23,7 +23,7 @@ func main() {
 
 	// After iterating over newChan, the values are gone. We repeat the
 	// process to show how we can manipulate some channel stuff.
-	newChan2 :=  make(chan int)
+	newChan2 := make(chan int)
 	adderOnly(newChan2) // 42,43,44,45 again inside channel
 
 	// Here we take a channel which we can only receive from. This changes
@@ -43,10 +43,9 @@ func main() {
 	//newChan3 <- 99
 }
 
-
 // Takes in a channel you can only receive from
 // returns a channel you can only receive from
-func receiverOnly(channel <-chan int) <-chan int{
+func receiverOnly(channel <-chan int) <-chan int {
 	out := make(chan int)
 
 	go func() {
@@ -62,16 +61,16 @@ func receiverOnly(channel <-chan int) <-chan int{
 }
 
 // takes in a channel that you can only send to.
-func adderOnly(channel chan<-int) {
+func adderOnly(channel chan<- int) {
 	go func() {
 		for i := 42; i < 47; i++ {
-			channel<-i
+			channel <- i
 			// Cannot read values below as local channel variable
 			// is send only.
 			/*
-			for value := range channel {
-				fmt.Println(value)
-			}
+				for value := range channel {
+					fmt.Println(value)
+				}
 			*/
 		}
 		close(channel)

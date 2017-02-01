@@ -1,12 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"crypto/rand"
+	"fmt"
 )
 
-
 var counter int
+
 func main() {
 	counter = 42
 	fmt.Println("Counter =", counter)
@@ -21,7 +21,7 @@ func main() {
 	c2 := incrementByNumber(int(incValues[1]))
 	c3 := newCount(c1)
 	c4 := newCount(c2)
-	newCountAddition := <-c3+<-c4
+	newCountAddition := <-c3 + <-c4
 	counter += newCountAddition
 	fmt.Println("Final Counter:", counter)
 }
