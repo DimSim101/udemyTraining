@@ -10,7 +10,7 @@ var done chan bool
 
 func main() {
 	counter = 42
-	channel = make(chan int)
+	channel = make(chan int, 1)
 	done = make(chan bool)
 	fmt.Println("Start counter value:", counter)
 
@@ -23,7 +23,6 @@ func main() {
 	// After both increment() have finished, we should have a single
 	// int inside channel which contains the new counter value (incremented).
 	go finish()
-	//fmt.Println("End counter value:", counter)
 }
 
 func increment() {
@@ -57,14 +56,33 @@ func increment() {
 		// CHANNEL IS NOW EMPTY).
 
 		// HOW CAN WE TEST FOR THIS?
+
+		// NEVERMIND. WE CAN USE A BUFFERED CHANNEL WHICH WON'T BLOCK
+		// ON PUTTING VALUES INSIDE THE CHANNEL UNTIL ITS FULL, AND WONT
+		// BLOCK ON PULLING VALUES OUT UNLESS ITS EMPTY. IN THIS CASE,
+		// SINCE WE KNOW AT THE HANDOVER POINT BETWEEN INCREMENT() CALLS
+		// THE SENDER WHICH THEN BLOCKS AS NO RECEIVER IS READY, WE CAN
+		// AVOID THIS BLOCK BY INSTEAD BLOCKING WHEN FULL (IN THIS CASE
+		// WE DONT NEED MORE THAN 1 THING INSIDE THE CHANNEL
+		// (SIMILAR TO UNBUFFERED EXCEPT WE NEED IT TO NOT BLOCK)
+		// SO WE CAN USE BUFFERED CHANNEL OF MAX SIZE 1).
+		// NOW, WHEN WE GET TO THE END OF THE LAST INCREMENT AND GO TO
+		// PUT THE FINAL VALUE ON THE BUFFER, IT WONT BLOCK DUE TO NO
+		// RECEIVER, AS THE CHANNEL HAS ROOM FOR IT (WILL BE EMPTY).
+		// THUS, THIS FINAL LINE EXECUTES, TRUE IS ADDED TO THE BOOL
+		// CHANNEL, FINISHED() THEN UNBLOCKS, SIGNIFYING WE HAVE FINISHED
+		// INCREMENTING OUR VARIABLE. NOW WE CAN GRAB THE LAST VALUE IN
+		// THE CHANNEL (WHICH IS READY TO BE RECEIVED), UPDATE THE COUNTER
+		// AND CLOSE THE CHANNEL BEFORE ENDING. BOOOOOOM!
+		// I AM DOING GREAT AND I AM AWESOME!
 	}
 	done <- true
 }
 
 func finish() {
 	<-done
-	counter = <- channel
 	<-done
+	counter = <- channel
 	close(channel)
 	fmt.Println("End counter value:", counter)
 	fmt.Println("FINISHED")
