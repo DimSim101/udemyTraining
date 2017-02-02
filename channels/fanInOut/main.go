@@ -7,6 +7,7 @@ import (
 
 func main() {
 
+	const MAX_CHANNELS  = 42
 	var intSlice []uint64
 	for j := 0; j < 5; j++ {
 		for i := 0; i < 20; i++ {
@@ -17,12 +18,22 @@ func main() {
 	ints := gen(intSlice...) // create a channel of ints
 
 	// FAN OUT - PROCESS SINGLE CHANNEL IN MULTIPLE FUNCTIONS / GOROUTINES
-	values := factorial(ints) // start calculating factorial of ints in channel
-	values1 := factorial(ints) // start calculating factorial of ints in channel
+	// Create a slice of <-chan uint64 (channels we can receive from)
+	// Which we can then add the new channels to when starting another
+	// factorial goroutine. This allows us to run as many goroutines as
+	// we want to handle the factorial calculation on any number of uint64's.
+	var chanSlice []<-chan uint64
+	for i := 0; i < MAX_CHANNELS; i++ {
+		newChan := factorial(ints) // start calculating factorial of ints in channel
+		chanSlice = append(chanSlice, newChan) // append the channel to the slice
+	}
 
 	// FAN IN - GRAB THE CHANNELS AND MERGE THE THEIR VALUES INTO ONE CHANNEL
-	for n := range merge(values, values1) {
-		fmt.Println(n)
+	// Now we can merge all the channels we created to handle the factorial
+	// calculations. Since theyre all inside chanSlice, we can just use
+	// the ... syntax to expand them all (since merge is a variadic function).
+	for n := range merge(chanSlice...) {
+		fmt.Println(n) // Print the factorial value taken from the channel
 	}
 }
 
