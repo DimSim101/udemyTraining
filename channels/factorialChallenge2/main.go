@@ -20,7 +20,7 @@ func main() {
 	}
 }
 
-func gen(nums ...uint64) <-chan uint64{
+func gen(nums ...uint64) <-chan uint64 {
 	out := make(chan uint64)
 	go func() {
 		for _, n := range nums {
@@ -31,7 +31,7 @@ func gen(nums ...uint64) <-chan uint64{
 	return out
 }
 
-func factorial(in <-chan uint64)<-chan uint64 {
+func factorial(in <-chan uint64) <-chan uint64 {
 	out := make(chan uint64)
 	go func() {
 		for n := range in {

@@ -22,17 +22,17 @@ func boring(name string) <-chan string {
 	return out
 }
 
-func fanIn(input1, input2 <- chan string) <- chan string {
+func fanIn(input1, input2 <-chan string) <-chan string {
 	out := make(chan string)
 	go func() {
 		for {
-			out <- <- input1
+			out <- <-input1
 		}
 	}()
 
 	go func() {
 		for {
-			out <- <- input2
+			out <- <-input2
 		}
 	}()
 	return out

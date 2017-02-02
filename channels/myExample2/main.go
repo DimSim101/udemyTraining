@@ -29,8 +29,8 @@ func increment() {
 	for i := 0; i < 10; i++ {
 		channelVar := <-channel // get counter value out of channel
 		fmt.Println("Incrementing value:", channelVar)
-		channelVar++            // increment local value
-		channel <- channelVar   // put new value (counter+1) on channel
+		channelVar++          // increment local value
+		channel <- channelVar // put new value (counter+1) on channel
 
 		// Explanation for why <-done <-done as the first two lines of
 		// finish() results in finish() blocking and main() ending first.
@@ -75,7 +75,7 @@ func increment() {
 func finish() {
 	<-done
 	<-done
-	counter = <- channel
+	counter = <-channel
 	close(channel)
 	fmt.Println("End counter value:", counter)
 	fmt.Println("FINISHED")

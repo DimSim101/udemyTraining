@@ -7,7 +7,7 @@ import (
 
 func main() {
 
-	const MAX_CHANNELS  = 42
+	const MAX_CHANNELS = 42
 	var intSlice []uint64
 	for j := 0; j < 5; j++ {
 		for i := 0; i < 20; i++ {
@@ -24,7 +24,7 @@ func main() {
 	// we want to handle the factorial calculation on any number of uint64's.
 	var chanSlice []<-chan uint64
 	for i := 0; i < MAX_CHANNELS; i++ {
-		newChan := factorial(ints) // start calculating factorial of ints in channel
+		newChan := factorial(ints)             // start calculating factorial of ints in channel
 		chanSlice = append(chanSlice, newChan) // append the channel to the slice
 	}
 
@@ -37,12 +37,27 @@ func main() {
 	}
 }
 
-func merge(chans ...<-chan uint64) <-chan uint64{
+func merge(chans ...<-chan uint64) <-chan uint64 {
 	out := make(chan uint64)
 	var semaphore sync.WaitGroup
 	semaphore.Add(len(chans))
 
 	for _, channel := range chans {
+		// The reason we have to pass channel into the goroutine below
+		// is because the scope of everything still applies even when
+		// the routine is off and running.
+		// For example, currently on each iteration of the slice of channels,
+		// we grab the channel and pass it to the goroutine which then
+		// goes off and runs, using that channel to grab values from.
+		// If instead we just spun up the goroutine and had
+		// for n := range channel, since the scope still applies,
+		// at each iteration we are updating channel (moving to the
+		// next channel in the slice) and hence all the goroutines running
+		// will access that channel. This is not the behaviour we want.
+		// Instead we want each goroutine to run for each channel, grab
+		// all the values off that channel and load them into the
+		// out channel (FAN IN). Hence, we must pass each channel into
+		// the goroutine in order for it to be "kept around" so to speak.
 		go func(ch <-chan uint64) {
 			for n := range ch {
 				out <- n
@@ -59,7 +74,7 @@ func merge(chans ...<-chan uint64) <-chan uint64{
 	return out
 }
 
-func gen(nums ...uint64) <-chan uint64{
+func gen(nums ...uint64) <-chan uint64 {
 	out := make(chan uint64)
 	go func() {
 		for _, n := range nums {
@@ -70,7 +85,7 @@ func gen(nums ...uint64) <-chan uint64{
 	return out
 }
 
-func factorial(in <-chan uint64)<-chan uint64 {
+func factorial(in <-chan uint64) <-chan uint64 {
 	out := make(chan uint64)
 	go func() {
 		for n := range in {

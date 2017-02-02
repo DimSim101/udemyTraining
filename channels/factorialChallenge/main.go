@@ -29,7 +29,7 @@ func main() {
 	fmt.Println("Number value post increment is:", number)
 }
 
-func factorial(number int)<-chan int {
+func factorial(number int) <-chan int {
 	out := make(chan int)
 	go func() {
 		var factorialValue int = 1
