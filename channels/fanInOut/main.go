@@ -6,15 +6,17 @@ import (
 )
 
 func main() {
-
 	const MAX_CHANNELS = 42
 	var intSlice []uint64
-	for j := 0; j < 5; j++ {
-		for i := 0; i < 20; i++ {
+	// Put 1,000,000 values inside the slice.
+	for j := 0; j < 100000; j++ {
+		// Large factorials to make the computation take some time.
+		for i := 30; i < 40; i++ {
 			intSlice = append(intSlice, uint64(i))
 		}
 	}
 
+	// Put all values inside the slice into the channel
 	ints := gen(intSlice...) // create a channel of ints
 
 	// FAN OUT - PROCESS SINGLE CHANNEL IN MULTIPLE FUNCTIONS / GOROUTINES
@@ -32,8 +34,10 @@ func main() {
 	// Now we can merge all the channels we created to handle the factorial
 	// calculations. Since theyre all inside chanSlice, we can just use
 	// the ... syntax to expand them all (since merge is a variadic function).
+	var count int
 	for n := range merge(chanSlice...) {
-		fmt.Println(n) // Print the factorial value taken from the channel
+		count++
+		fmt.Println(count, ":", n) // Print the factorial value taken from the channel
 	}
 }
 
