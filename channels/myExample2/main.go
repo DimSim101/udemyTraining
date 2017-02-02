@@ -32,48 +32,41 @@ func increment() {
 		channelVar++            // increment local value
 		channel <- channelVar   // put new value (counter+1) on channel
 
-		// EXPLANATION FOR WHY <-done <-done as the first two lines of
+		// Explanation for why <-done <-done as the first two lines of
 		// finish() results in finish() blocking and main() ending first.
 
-		// WHEN IN THE LAST ROUND OF THE LAST INCREMENT WE CANNOT PUT
-		// channelVar ON THE CHANNEL BECAUSE THE RECEIVER FOR IT
-		// ISN'T READY (were blocking on the second done in finished()).
-		// THUS, IF WE REMOVE THE BLOCK ON THE SECOND DONE, ONCE THE FIRST
-		// INCREMENT IS COMPLETE, THEN WE CAN GO AHEAD AND FINISH
-		// THE SECOND INCREMENT WHICH IS NO LONGER GETTING STUCK
-		// AT THE FINAL STEP. WE CAN MOVE THIS SECOND DONE TO AFTER
-		// WE GRAB THIS LAST VALUE OUT OF THE CHANNEL TO ENSURE EVERYTHING
-		// IS COMPLETE.
-		//
-		// HOWEVER, AFTER THE FIRST INCREMENT() FINISHES
-		// AND finish() UNBLOCKS THE FIRST <-done, THERE WILL BE ONE
-		// INT IN THE CHANNEL. WHAT IS TO STOP COUNTER = <- CHANNEL
-		// HERE, UPDATE THE COUNTER AND THEN BLOCK ON <-done again?
-		// IF THIS OCCURRED, THEN THE PROGRAM WOULD JUST END BECAUSE
-		// FINISH WOULD BE BLOCKING ON <-done AND INCREMENT WILL
-		// BE BLOCKING ON channelVar := <-channel AS THERE IS NOTHING
-		// INSIDE THE CHANNEL ANYMORE (VALUE WAS TAKEN BY COUNTER SO
-		// CHANNEL IS NOW EMPTY).
+		// When in the last round of the last increment() call we cannot put
+		// channelVar on the channel because the receiver for it
+		// isn't ready (were blocking on the second <-done in finished()
+		// and so the receiver for <-channel in finished isn't ready yet).
 
-		// HOW CAN WE TEST FOR THIS?
+		// We can change the ordering to grab the last value out of the int channel
+		// before we block on the second done, bypassing this problem. However,
+		// this doesn't ensure that after the first increment finishes and
+		// the first <-done passes in finish(), that the program won't just
+		// continue inside finish(), grab the last value from the
+		// channel of ints, load it into counter and then the next
+		// increment() round will be stuck forever trying to receive
+		// from an empty channel, resulting in main() just ending.
 
-		// NEVERMIND. WE CAN USE A BUFFERED CHANNEL WHICH WON'T BLOCK
-		// ON PUTTING VALUES INSIDE THE CHANNEL UNTIL ITS FULL, AND WONT
-		// BLOCK ON PULLING VALUES OUT UNLESS ITS EMPTY. IN THIS CASE,
-		// SINCE WE KNOW AT THE HANDOVER POINT BETWEEN INCREMENT() CALLS
-		// THE SENDER WHICH THEN BLOCKS AS NO RECEIVER IS READY, WE CAN
-		// AVOID THIS BLOCK BY INSTEAD BLOCKING WHEN FULL (IN THIS CASE
-		// WE DONT NEED MORE THAN 1 THING INSIDE THE CHANNEL
-		// (SIMILAR TO UNBUFFERED EXCEPT WE NEED IT TO NOT BLOCK)
-		// SO WE CAN USE BUFFERED CHANNEL OF MAX SIZE 1).
-		// NOW, WHEN WE GET TO THE END OF THE LAST INCREMENT AND GO TO
-		// PUT THE FINAL VALUE ON THE BUFFER, IT WONT BLOCK DUE TO NO
-		// RECEIVER, AS THE CHANNEL HAS ROOM FOR IT (WILL BE EMPTY).
-		// THUS, THIS FINAL LINE EXECUTES, TRUE IS ADDED TO THE BOOL
-		// CHANNEL, FINISHED() THEN UNBLOCKS, SIGNIFYING WE HAVE FINISHED
-		// INCREMENTING OUR VARIABLE. NOW WE CAN GRAB THE LAST VALUE IN
-		// THE CHANNEL (WHICH IS READY TO BE RECEIVED), UPDATE THE COUNTER
-		// AND CLOSE THE CHANNEL BEFORE ENDING. BOOOOOOM!
+		// Instead we can use a buffered channel which won't block
+		// on putting values inside the channel until its full, and wont
+		// block on pulling values out unless its empty. In this case,
+		// since we know at the handover point between increment() calls
+		// the sender which then blocks as no receiver is ready, we can
+		// avoid this block by instead blocking when full (in this case
+		// we dont need more than 1 thing inside the channel
+		// (similar to unbuffered except we need it to not block)
+		// so we can use buffered channel of max size 1).
+		// Now, when we get to the end of the last increment and go to
+		// put the final value on the buffer, it wont block due to no
+		// receiver, as the channel has room for it (will be empty).
+		// Thus, this final line executes, true is added to the bool
+		// channel, finished() then unblocks, signifying we have finished
+		// incrementing our variable. Now we can grab the last value in
+		// the channel (which is ready to be received), update the counter
+		// and close the channel before ending!
+		//BOOOOOOM!
 		// I AM DOING GREAT AND I AM AWESOME!
 	}
 	done <- true
