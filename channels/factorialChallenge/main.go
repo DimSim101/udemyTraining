@@ -8,6 +8,7 @@ func main() {
 	var number int = 4
 	fmt.Println("Number value before factorial is:", number)
 	factorialChan := factorial(number)
+	// using range loop
 	for n := range factorialChan {
 		number = n
 		fmt.Println("Number value is now:", number)
@@ -16,18 +17,16 @@ func main() {
 	number = 6
 	fmt.Println("Number value before factorial is:", number)
 	factorialChan = factorial(number)
-	for n := range factorialChan {
-		number = n
-		fmt.Println("Number value is now:", number)
-	}
+	// using single receiver since we know only ever 1 value inside
+	number = <-factorialChan
+	fmt.Println("Number value post increment is", number)
 
 	number = 8
 	fmt.Println("Number pre increment is", number)
 	incrementChan := incrementByValue(number, 20)
-	for n := range incrementChan {
-		number = n
-		fmt.Println("Number value post increment is:", number)
-	}
+	// using single receiver since we know only ever 1 value inside
+	number = <-incrementChan
+	fmt.Println("Number value post increment is:", number)
 }
 
 func factorial(number int)<-chan int {
