@@ -29,6 +29,13 @@ func main() {
 	} else {
 		fmt.Println(myName)
 	}
+
+	myName, err = getName("Mandy")
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(myName)
+	}
 }
 
 func factorial(num int) (int, error) {
@@ -44,9 +51,16 @@ func factorial(num int) (int, error) {
 }
 
 func getName(name string) (string, error) {
+	var err error // Here we can create an error type which will be nil
+	// and hence can just set its value / leave it as the default (nil)
+	// and return it.
 	if name == "David" {
 		// errors returned are always strings.
-		return "", errors.New("Hello me")
+		err = errors.New("Hello me")
+		return "", err
+	} else if name == "Mandy" {
+		err = errors.New("Hi mum")
+		return "", err
 	}
-	return "Your name is " + name, nil
+	return "Your name is " + name, err // error value is nil here
 }
