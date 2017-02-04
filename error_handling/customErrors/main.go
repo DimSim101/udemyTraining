@@ -16,25 +16,22 @@ func main() {
 		}
 	}
 
-	myName, err := getName("BLAH")
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(myName)
-	}
+	names := []string{"BLAH", "David", "Mandy", "Namu", "Dave", "Davo"}
 
-	myName, err = getName("David")
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(myName)
-	}
+	for _, name := range names {
+		myName, err := getName(name)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println(myName)
+		}
 
-	myName, err = getName("Mandy")
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(myName)
+		myName, err = getNameIdiomaticErrors(name)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println(myName)
+		}
 	}
 }
 
@@ -54,13 +51,46 @@ func getName(name string) (string, error) {
 	var err error // Here we can create an error type which will be nil
 	// and hence can just set its value / leave it as the default (nil)
 	// and return it.
-	if name == "David" {
-		// errors returned are always strings.
+
+	// We can also create any errors which we might use repeatedly
+	mumError := errors.New("Hi mum")
+
+	switch name {
+	case "David":
+		// errors returned by errors.New() are always represented by strings.
 		err = errors.New("Hello me")
 		return "", err
-	} else if name == "Mandy" {
-		err = errors.New("Hi mum")
-		return "", err
+	case "Mandy":
+		return "", mumError
+	case "Namu":
+		return "", mumError
+	default:
+		return "Your name is " + name, err // error value is nil here
 	}
-	return "Your name is " + name, err // error value is nil here
+	// This can be here after the switch or inside a default case - behaviour identical
+	// return "Your name is " + name, err // error value is nil here
+}
+
+func getNameIdiomaticErrors(name string) (string, error) {
+	// Here we can create any errors we want to use repeatedly.
+	var (
+		mumError = errors.New("Hi mum idiomatic")
+		meError = errors.New("Hello me idiomatic")
+		youError = errors.New("Hellloo youu idiomatic")
+	)
+	switch name {
+	case "David":
+		return "", meError
+	case "Mandy":
+		return "", mumError
+	case "Namu":
+		return "", mumError
+	case "Dave":
+		return "", youError
+	case "Davo":
+		return "", youError
+	default:
+		// idiomatic returning of error that is clearly nil (no error).
+		return "Your idiomatic name is " + name, nil
+	}
 }
