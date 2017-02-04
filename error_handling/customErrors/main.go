@@ -37,7 +37,7 @@ func main() {
 
 func factorial(num int) (int, error) {
 	if num < 0 {
-		return 0, errors.New("Error: Cannot call factorial() on a negative number.")
+		return 0, fmt.Errorf("Error: Cannot call factorial() on negative number: %v.", num)
 	}
 
 	result := 1
@@ -74,9 +74,12 @@ func getName(name string) (string, error) {
 func getNameIdiomaticErrors(name string) (string, error) {
 	// Here we can create any errors we want to use repeatedly.
 	var (
+		// Simple error string using errors.New()
 		ErrMum = errors.New("Hi mum idiomatic")
-		ErrMe = errors.New("Hello me idiomatic")
-		ErrYou = errors.New("Hellloo youu idiomatic")
+		// Formatter error string using fmt.Errorf (calls errors.New()
+		// behind the scenes after formatting the string).
+		ErrMe = fmt.Errorf("Error with name: %v. Hello me idiomatic", name)
+		ErrYou = fmt.Errorf("Error with name: %v. Hellloo youu idiomatic", name)
 	)
 	switch name {
 	case "David":
