@@ -53,7 +53,7 @@ func getName(name string) (string, error) {
 	// and return it.
 
 	// We can also create any errors which we might use repeatedly
-	mumError := errors.New("Hi mum")
+	var ErrMum = errors.New("Hi mum")
 
 	switch name {
 	case "David":
@@ -61,9 +61,9 @@ func getName(name string) (string, error) {
 		err = errors.New("Hello me")
 		return "", err
 	case "Mandy":
-		return "", mumError
+		return "", ErrMum
 	case "Namu":
-		return "", mumError
+		return "", ErrMum
 	default:
 		return "Your name is " + name, err // error value is nil here
 	}
@@ -74,21 +74,21 @@ func getName(name string) (string, error) {
 func getNameIdiomaticErrors(name string) (string, error) {
 	// Here we can create any errors we want to use repeatedly.
 	var (
-		mumError = errors.New("Hi mum idiomatic")
-		meError = errors.New("Hello me idiomatic")
-		youError = errors.New("Hellloo youu idiomatic")
+		ErrMum = errors.New("Hi mum idiomatic")
+		ErrMe = errors.New("Hello me idiomatic")
+		ErrYou = errors.New("Hellloo youu idiomatic")
 	)
 	switch name {
 	case "David":
-		return "", meError
+		return "", ErrMe
 	case "Mandy":
-		return "", mumError
+		return "", ErrMum
 	case "Namu":
-		return "", mumError
+		return "", ErrMum
 	case "Dave":
-		return "", youError
+		return "", ErrYou
 	case "Davo":
-		return "", youError
+		return "", ErrYou
 	default:
 		// idiomatic returning of error that is clearly nil (no error).
 		return "Your idiomatic name is " + name, nil
