@@ -30,6 +30,12 @@ func main() {
 	file, error := os.Open("non-existant-file.txt") // attempt to open fake file.
 	if error != nil {
 		log.Println("Error:", error) // Log the error to the log file.
+		// If we needed this file to open in order to do some stuff,
+		// we could panic or fatal here.
+		//log.Panic("Error:", error) // Will call exit after logging and
+		// print the stack and exit status
+		//log.Fatal("Error:", error) // Will call exit after logging and
+		// print the exit status
 	} else {
 		// If we got here, we must've had a file called
 		// non-existant-file.txt in the directory. Wtf lol?
