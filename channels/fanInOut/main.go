@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	const MAX_CHANNELS = 42
+	const maxChannels = 42
 	var intSlice []uint64
 	// Put 1,000,000 values inside the slice.
 	for j := 0; j < 100000; j++ {
@@ -24,12 +24,12 @@ func main() {
 	// Which we can then add the new channels to when starting another
 	// factorial goroutine. This allows us to run as many goroutines as
 	// we want to handle the factorial calculation on any number of uint64's.
-	chanSlice := make([]<-chan uint64, MAX_CHANNELS) // Create a slice of
+	chanSlice := make([]<-chan uint64, maxChannels) // Create a slice of
 	// channels using make since we know how many channels we want (defined
 	// as a const above).
-	for i := 0; i < MAX_CHANNELS; i++ {
-		newChan := factorial(ints)             // start calculating factorial of ints in channel
-		chanSlice[i] = newChan // Put the channel in the slice
+	for i := 0; i < maxChannels; i++ {
+		newChan := factorial(ints) // start calculating factorial of ints in channel
+		chanSlice[i] = newChan     // Put the channel in the slice
 	}
 
 	// FAN IN - GRAB THE CHANNELS AND MERGE THE THEIR VALUES INTO ONE CHANNEL

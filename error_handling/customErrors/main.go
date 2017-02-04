@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"log"
 )
 
 func main() {
@@ -10,7 +11,7 @@ func main() {
 		fmt.Println("Calling factorial() on:", i)
 		val, err := factorial(i)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		} else {
 			fmt.Println("Factorial result is:", val)
 		}
@@ -21,14 +22,14 @@ func main() {
 	for _, name := range names {
 		myName, err := getName(name)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		} else {
 			fmt.Println(myName)
 		}
 
 		myName, err = getNameIdiomaticErrors(name)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		} else {
 			fmt.Println(myName)
 		}
@@ -37,7 +38,7 @@ func main() {
 
 func factorial(num int) (int, error) {
 	if num < 0 {
-		return 0, fmt.Errorf("Error: Cannot call factorial() on negative number: %v.", num)
+		return 0, fmt.Errorf("Error: Cannot call factorial() on negative number: %v", num)
 	}
 
 	result := 1
@@ -78,7 +79,7 @@ func getNameIdiomaticErrors(name string) (string, error) {
 		ErrMum = errors.New("Hi mum idiomatic")
 		// Formatter error string using fmt.Errorf (calls errors.New()
 		// behind the scenes after formatting the string).
-		ErrMe = fmt.Errorf("Error with name: %v. Hello me idiomatic", name)
+		ErrMe  = fmt.Errorf("Error with name: %v. Hello me idiomatic", name)
 		ErrYou = fmt.Errorf("Error with name: %v. Hellloo youu idiomatic", name)
 	)
 	switch name {

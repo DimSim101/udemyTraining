@@ -1,9 +1,9 @@
 package main
 
 import (
-	"os"
-	"log"
 	"fmt"
+	"log"
+	"os"
 )
 
 var logFile *os.File
@@ -11,7 +11,7 @@ var logFile *os.File
 func init() {
 	// This will CREATE the file if it doesnt exist, else it will open the file
 	// with WRITE ONLY (since were only writing logs) permissions and append to it.
-	logFile, error := os.OpenFile("log.txt", os.O_WRONLY | os.O_CREATE | os.O_APPEND, 0666)
+	logFile, error := os.OpenFile("log.txt", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
 	// ORIGINAL LINE FROM TODD's EXAMPLE TO CREATE LOG FILE --
 	// os.Create("log.txt") // create simple log txt file. Will overwrite
 	// old file if it existed.

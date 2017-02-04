@@ -1,16 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 type factorialError struct {
 	invalidValue int
-	caller string
-	err error
+	caller       string
+	err          error
 }
 
 func (f factorialError) Error() string {
 	return fmt.Sprintf("FactorialError occured. Reason: %v - Caller: %v - Value: %v",
-	f.err, f.caller, f.invalidValue)
+		f.err, f.caller, f.invalidValue)
 
 }
 
@@ -19,7 +22,7 @@ func main() {
 		fmt.Println("Calling factorial() on:", i)
 		val, err := factorial(i, "FOO")
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 		} else {
 			fmt.Println("Factorial result is:", val)
 		}
@@ -29,12 +32,10 @@ func main() {
 	fmt.Println("Calling factorial() on:", number)
 	val, err := factorial(number, "BLAH")
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	} else {
 		fmt.Println("Factorial result is:", val)
 	}
-
-
 }
 
 func factorial(num int, callerID string) (int, error) {

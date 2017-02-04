@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	var number int = 4
+	number := 4
 	fmt.Println("Number value before factorial is:", number)
 	factorialChan := factorial(number)
 	// using range loop
@@ -32,7 +32,7 @@ func main() {
 func factorial(number int) <-chan int {
 	out := make(chan int)
 	go func() {
-		var factorialValue int = 1
+		factorialValue := 1
 		for i := number; i > 0; i-- {
 			factorialValue *= i
 		}
@@ -45,9 +45,9 @@ func factorial(number int) <-chan int {
 func incrementByValue(number int, value int) <-chan int {
 	out := make(chan int)
 	go func() {
-		var incrementedValue int = number
+		incrementedValue := number
 		for i := 0; i < value; i++ {
-			incrementedValue += 1
+			incrementedValue++
 		}
 		out <- incrementedValue
 		close(out)
